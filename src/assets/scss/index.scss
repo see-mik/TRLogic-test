@@ -1,0 +1,50 @@
+// BASE scss helpers
+
+
+// Font import
+@import url('https://fonts.googleapis.com/css2?family=Gotu&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+// Global var
+:root {
+  --font: 'Gotu', sans-serif;
+  --logoFont: 'Anton', sans-serif;
+}
+
+// Global style & classes
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  font-family: var(--font);
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 15px;
+}
+
+._row {
+  display: flex;
+}
+
+._col {
+  display: flex;
+  flex-direction: column;
+}

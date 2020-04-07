@@ -1,0 +1,39 @@
+@mixin _slide-hover($bgc: cornsilk, $dark: false, $radius: 3px) {
+  position: relative;
+  z-index: 1;
+  border-radius: $radius;
+  overflow: hidden;
+
+  &:before, &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    left: 0;
+    transition: all .3s;
+    z-index: -1;
+  }
+
+  &:before {
+    background-color: $bgc;
+    height: 100%;
+    top: 0;
+  }
+
+  &:after {
+    background-color: $bgc + 50%;
+    height: 0;
+    bottom: 0;
+
+    @if($dark == true) {
+      background-color: $bgc - 50%;
+    }
+  }
+
+  &:hover:before {
+    height: 0;
+  }
+
+  &:hover:after {
+    height: 100%;
+  }
+}
