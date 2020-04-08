@@ -2,7 +2,7 @@
   <form @submit.prevent="submitHandle()" class="_row">
     <input type="text" v-model="description" placeholder="Enter todo description...">
 
-    <button type="submit">Add</button>
+    <button type="submit" :disabled="!description.length">Add</button>
   </form>
 </template>
 
@@ -27,5 +27,8 @@
 </script>
 
 <style scoped lang="scss">
-
+  button {
+    padding: .5rem 1.3rem;
+    border-radius: 3px;
+  }
 </style>

@@ -1,6 +1,4 @@
 // BASE scss helpers
-
-
 // Font import
 @import url('https://fonts.googleapis.com/css2?family=Gotu&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
@@ -47,4 +45,15 @@ body {
 ._col {
   display: flex;
   flex-direction: column;
+}
+
+[disabled] {
+  cursor: default;
+  pointer-events: none;
+  background-color: #cecece;
+  opacity: .7;
+
+  &:before, &:after {
+    display: none;
+  }
 }
