@@ -39,19 +39,6 @@
     margin-left: auto;
   }
 
-  input {
-    width: 200px;
-    margin-right: 10px;
-    font-size: 13px;
-    line-height: 1.1;
-    padding: .7em;
-    transition: all .3s;
-    box-sizing: border-box;
-    border-radius: 3px;
-    box-shadow: inset 0 0 0 1px #ccc;
-    z-index: 1;
-  }
-
   button {
     padding: .5rem 1.3rem;
     border-radius: 3px;

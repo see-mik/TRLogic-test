@@ -1,45 +1,49 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
 Vue.use(Vuex);
 
 const state = {
-  notes: [
-    {
-      id: '1',
-      title: 'First',
-      todos: [
-        {id: '1', description: 'Lorem ipsum dolor sit amet.', complete: false},
-        {id: '2', description: 'Lorem ipsum dolor sit amet.', complete: false},
-        {id: '3', description: 'Lorem ipsum dolor sit amet.', complete: false}
-      ]
-    },
-    {
-      id: '2',
-      title: 'First',
-      todos: [
-        {id: '4', description: 'Lorem ipsum dolor sit amet.', complete: false},
-        {id: '5', description: 'Lorem ipsum dolor sit amet.', complete: false},
-        {id: '6', description: 'Lorem ipsum dolor sit amet.', complete: false}
-      ]
-    },
-    {
-      id: '3',
-      title: 'First',
-      todos: [
-        {id: '7', description: 'Lorem ipsum dolor sit amet.', complete: false},
-        {id: '8', description: 'Lorem ipsum dolor sit amet.', complete: false},
-        {id: '9', description: 'Lorem ipsum dolor sit amet.', complete: false}
-      ]
-    }
-  ]
+  notes: JSON.parse(localStorage.getItem('notesList') || '[]'),
+  editMode: false
+};
 
-};
 const getters = {
-  getNotes: (s) => s.notes
+  getNotes: (s) => s.notes,
+  getEdit: (s) => s.editMode
 };
-const mutations = {};
-const actions = {};
+
+const mutations = {
+  addNote(s, note) {
+    s.notes = [note, ...s.notes];
+    localStorage.setItem('notesList', JSON.stringify(s.notes));
+  },
+
+  changeEdit(s, edit) {
+    s.editMode = edit && typeof(edit) === 'boolean' ? edit : !s.editMode;
+  },
+
+  todoToggle(s, {id, todoId}) {
+    const idx = s.notes.findIndex(n => n.id === id);
+    let note = s.notes[idx];
+
+    const todoIdx = note.todos.findIndex(t => t.id === todoId);
+    let todo = note.todos[todoIdx];
+
+    todo.complete = !todo.complete;
+    note.todos[todoIdx] = todo;
+    s.notes[idx] = note;
+  }
+};
+
+const actions = {
+  addNote({commit}, note) {
+    commit('addNote', note);
+  },
+
+  todoToggle({commit}, payload) {
+    commit('todoToggle', payload);
+  }
+};
 
 export default new Vuex.Store({
   state,

@@ -16,8 +16,16 @@
       <div class="_col"
            v-if="todos.length">
         <todo v-for="todo in todos"
-              :todo="todo">
+              :todo="todo"
+              :key="todo.id"
+              :is-edit="false"
+              :is-remove="true"
+              @remove-todo="removeTodo($event)"
+        >
         </todo>
+      </div>
+      <div v-else>
+        <h4>Add your first Todo</h4>
       </div>
       <create-todo
          @add-todo="addTodo($event)"
@@ -25,7 +33,9 @@
       </create-todo>
     </div>
 
-    <button type="submit">Create</button>
+    <button type="submit" :disabled="!(title.length && todos.length)">
+      Create
+    </button>
   </form>
 </template>
 
@@ -33,6 +43,7 @@
   import CreateTodo from '../components/todo/CreateTodo.vue';
   import CreateNote from '../components/note/CreateNote.vue';
   import Todo from '../components/todo/Todo';
+  import { uid } from '../utils/index';
 
   export default {
     name: 'create',
@@ -47,13 +58,25 @@
     }),
     methods: {
       submitHandle() {
+        const note = {
+          id: uid(),
+          title: this.title,
+          todos: this.todos,
+          status: 'active',
+          date: new Date()
+        };
+
+        this.$store.dispatch('addNote', note);
+        this.$router.push('/');
+      },
+      addTitle(title) {
+        this.title = title;
       },
       addTodo(todo) {
         this.todos = [todo, ...this.todos];
       },
-      addTitle(title) {
-        console.log(title);
-        this.title = title;
+      removeTodo(id) {
+        this.todos = this.todos.filter(t => t.id !== id);
       }
     }
   }
@@ -85,12 +108,21 @@
       margin-bottom: .4em;
       padding-bottom: .4em;
     }
+
+    h4 {
+      padding: .7em 0;
+    }
   }
 
   [type='submit'] {
     @include _slide-hover($bgc: #a7e9af, $dark: true);
-    padding: .5rem 1.3rem;
+
+    margin-top: 50px;
+    padding: .5em 1.3em;
     border-radius: 3px;
+    color: #fff;
+    font-size: 16px;
     cursor: pointer;
+
   }
 </style>

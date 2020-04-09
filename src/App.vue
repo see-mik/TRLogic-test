@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-    <navbar></navbar>
-    <div class="container">
-      <router-view></router-view>
+    <div class="wrap">
+      <navbar></navbar>
+      <main class="container">
+        <router-view></router-view>
+      </main>
     </div>
   </div>
 </template>
@@ -20,4 +22,27 @@
 
 <style lang="scss">
   @import "assets/scss/index";
+
+  html, body {
+    height: 100%;
+  }
+
+  #app {
+    display: flex;
+    height: 100%;
+  }
+
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 100%;
+  }
+
+  header, footer {
+    flex: 0 1 auto;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
 </style>

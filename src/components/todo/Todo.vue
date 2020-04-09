@@ -1,13 +1,24 @@
 <template>
   <div class="todo _row">
-    <div class="checkbox">
-      <input type="checkbox" :value="todo.complete" @change="toggle()" ref="check">
+    <div class="checkbox"
+         v-if="isEdit">
+      <input type="checkbox"
+             :value="todo.complete"
+             @change="changeHandler()"
+             ref="check">
       <label ref="label"
              :class="{_complete: todo.complete}">
       </label>
     </div>
 
-    <p>{{todo.description}}</p>
+    <p :class="{_complete: todo.complete}">
+      {{todo.description}}
+    </p>
+
+    <button
+       v-if="isRemove"
+       @click="remove()">&times;
+    </button>
   </div>
 </template>
 
@@ -15,26 +26,40 @@
   export default {
     name: 'todo',
     props: {
+      isRemove: Boolean,
       todo: {
+        id: Number,
         description: String,
         complete: Boolean
       }
     },
-    methods: {
-      toggle() {
-        this.todo.complete = !this.todo.complete;
+    computed: {
+      isEdit() {
+        return this.$store.getters.getEdit;
       }
     },
-    mounted() {
-      let {label, check} = this.$refs;
+    updated() {
+      if (this.isEdit) {
+        let {label, check} = this.$refs;
 
-      check.setAttribute('id', `todo-${this.todo.id}`);
-      label.setAttribute('for', `todo-${this.todo.id}`);
+        check.setAttribute('id', `todo-${this.todo.id}`);
+        label.setAttribute('for', `todo-${this.todo.id}`);
+      }
+    },
+    methods: {
+      changeHandler() {
+        this.$emit('toggle-todo', this.todo.id);
+      },
+      remove() {
+        this.$emit('remove-todo', this.todo.id);
+      }
     }
   }
 </script>
 
 <style scoped lang="scss">
+  @import "../../assets/scss/mixins";
+
   .todo {
     align-items: center;
     padding: 1rem 0;
@@ -46,9 +71,11 @@
   }
 
   .checkbox {
+    margin-right: 15px;
+
     input {
-      display: none;
       visibility: hidden;
+      display: none;
     }
 
     label {
@@ -87,12 +114,32 @@
 
   }
 
+  button {
+    background-color: #d63447;
+    flex: 0 0 24px;
+    margin-left: 10px;
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 24px;
+    line-height: 24px;
+    cursor: pointer;
+    transition: all .3s;
+
+    &:hover {
+      transform: rotate(180deg);
+    }
+  }
+
   p {
     width: 100%;
-    margin-left: 15px;
     font-size: 14px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    ._complete {
+      text-decoration: line-through;
+    }
   }
 </style>

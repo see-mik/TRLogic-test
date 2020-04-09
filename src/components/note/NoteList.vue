@@ -1,7 +1,7 @@
 <template>
   <div class="notes">
     <note
-       v-for="(note, idx) in noteList"
+       v-for="(note, idx) in notes"
        :note="note"
        :key="idx"
     >
@@ -17,10 +17,8 @@
     components: {
       Note
     },
-    computed: {
-      noteList () {
-        return this.$store.getters.getNotes;
-      }
+    props: {
+      notes: Array
     }
   }
 </script>
@@ -30,7 +28,6 @@
     padding: 1rem 15px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     align-items: flex-start;
   }
 </style>

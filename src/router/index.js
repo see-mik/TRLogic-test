@@ -13,6 +13,11 @@ const routes = [
     path: '/create',
     name: 'create',
     component: () => import('./../views/Create.vue')
+  },
+  {
+    path: '/note/:id',
+    name: 'note-view',
+    component: () => import('./../views/Single.vue')
   }
 ];
 
