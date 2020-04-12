@@ -2,8 +2,6 @@
   <div class="home">
     <div class="_col"
          v-if="notesList.length">
-      <activebar></activebar>
-
       <note-list
          :notes="notesList">
       </note-list>
@@ -19,19 +17,18 @@
 </template>
 
 <script>
-  import Activebar from '../components/Activebar.vue';
   import NoteList from '../components/note/NoteList.vue';
 
   export default {
     name: '',
     components: {
-      Activebar, NoteList
+      NoteList
     },
     computed: {
       notesList () {
         return this.$store.getters.getNotes;
       }
-    }
+    },
   }
 </script>
 

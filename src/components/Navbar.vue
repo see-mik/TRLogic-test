@@ -7,6 +7,9 @@
         </router-link>
 
         <nav>
+          <router-link tag="li" to="/create">
+            <a href="#">Create</a>
+          </router-link>
           <router-link to="/" tag="li">
             <a href="#">Home</a>
           </router-link>

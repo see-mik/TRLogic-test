@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="submitHandle()" class="_row">
-    <input type="text" v-model="description" placeholder="Enter todo description...">
+    <input type="text" v-model="description" placeholder="Enter todo...">
 
     <button type="submit" :disabled="!description.length">Add</button>
   </form>
@@ -33,7 +33,7 @@
   @import "../../assets/scss/mixins";
 
   form {
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
 
   button {
@@ -41,5 +41,17 @@
     border-radius: 3px;
 
     @include _slide-hover(#537ec5);
+  }
+
+  input {
+    width: 300px;
+    margin-right: 10px;
+    font-size: 13px;
+    line-height: 1.1;
+    padding: .7em;
+    transition: all .3s;
+    box-sizing: border-box;
+    border-radius: 3px;
+    box-shadow: inset 0 0 0 1px #ccc;
   }
 </style>

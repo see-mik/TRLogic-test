@@ -1,35 +1,32 @@
 <template>
-  <div class="inner">
-    <router-link tag="button"
-                 to="/create"
-                 class="create">Create
-    </router-link>
-    <button @click="edit()"
-            class="edit"
-            :class="{_on: isEdit}">
-      {{ isEdit ? "Off" : "On" }} Edit
-    </button>
-    <button @click="remove()"
-            class="remove">Delete
-    </button>
+  <div class="bar">
+    <div class="_row">
+      <button @click="$emit('toggle-edit')"
+              class="edit"
+              :class="{_on: isEdit}">
+        {{ isEdit ? "Off" : "On" }} Edit
+      </button>
+      <button class="remove" @click="$emit('remove-note')">
+        Delete
+      </button>
+    </div>
+
+    <div class="_row" v-if="isEdit">
+      <button class="do" @click="$emit('do')">
+        Do
+      </button>
+      <button class="undo" @click="$emit('undo')">
+        Undo
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
   export default {
     name: '',
-    computed: {
-      isEdit() {
-        return this.$store.getters.getEdit;
-      }
-    },
-    methods: {
-      edit() {
-        this.$store.commit('changeEdit');
-      },
-      remove() {
-        console.log('remove');
-      }
+    props: {
+      isEdit: Boolean
     }
   }
 </script>
@@ -37,8 +34,14 @@
 <style scoped lang="scss">
   @import "../assets/scss/mixins";
 
-  .inner {
-    justify-content: flex-start;
+  .bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+
+    ._row {
+      align-items: center;
+    }
   }
 
   button {
@@ -46,14 +49,11 @@
     font-size: 14px;
     line-height: 1.5;
     padding: .5em 1.6em;
+    border-radius: 3px;
     cursor: pointer;
 
     &:last-child {
       margin-right: 0;
-    }
-
-    &.create {
-      @include _slide-hover($bgc: #46b3e6);
     }
 
     &.edit {
@@ -66,6 +66,11 @@
 
     &.remove {
       @include _slide-hover($bgc: #ff5858, $dark: true);
+    }
+
+    &.do, &.undo {
+      @include _slide-hover($bgc: #4a47a3);
+      color: #fff;
     }
   }
 </style>

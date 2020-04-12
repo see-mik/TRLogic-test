@@ -1,23 +1,24 @@
 <template>
   <div class="todo _row">
-    <div class="checkbox"
-         v-if="isEdit">
-      <input type="checkbox"
-             :value="todo.complete"
-             @change="changeHandler()"
-             ref="check">
-      <label ref="label"
-             :class="{_complete: todo.complete}">
-      </label>
-    </div>
+    <label :for="`todo-${todo.id}`"
+           :class="{_complete: todo.complete, '_no-events': !isToggle}">
 
-    <p :class="{_complete: todo.complete}">
+      <span class="checkbox"
+            v-if="isToggle">
+        <input type="checkbox"
+               :id="`todo-${todo.id}`"
+               :value="todo.complete"
+               @change="changeHandler()">
+        <span class="switch"
+              :class="{_complete: todo.complete}"></span>
+    </span>
+
       {{todo.description}}
-    </p>
+    </label>
 
     <button
        v-if="isRemove"
-       @click="remove()">&times;
+       @click="removeTodo()">&times;
     </button>
   </div>
 </template>
@@ -27,30 +28,19 @@
     name: 'todo',
     props: {
       isRemove: Boolean,
+      isToggle: Boolean,
       todo: {
         id: Number,
         description: String,
         complete: Boolean
       }
     },
-    computed: {
-      isEdit() {
-        return this.$store.getters.getEdit;
-      }
-    },
-    updated() {
-      if (this.isEdit) {
-        let {label, check} = this.$refs;
 
-        check.setAttribute('id', `todo-${this.todo.id}`);
-        label.setAttribute('for', `todo-${this.todo.id}`);
-      }
-    },
     methods: {
       changeHandler() {
         this.$emit('toggle-todo', this.todo.id);
       },
-      remove() {
+      removeTodo() {
         this.$emit('remove-todo', this.todo.id);
       }
     }
@@ -78,7 +68,7 @@
       display: none;
     }
 
-    label {
+    .switch {
       display: block;
       background-color: #12e2a3;
       width: 36px;
@@ -114,6 +104,19 @@
 
   }
 
+  label {
+    display: flex;
+    width: 100%;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    ._complete {
+      text-decoration: line-through;
+    }
+  }
+
   button {
     background-color: #d63447;
     flex: 0 0 24px;
@@ -128,18 +131,6 @@
 
     &:hover {
       transform: rotate(180deg);
-    }
-  }
-
-  p {
-    width: 100%;
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    ._complete {
-      text-decoration: line-through;
     }
   }
 </style>

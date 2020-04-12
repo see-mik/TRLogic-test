@@ -1,21 +1,11 @@
 <template>
   <div class="note _col"
        :class="{_active: true}">
-    <div class="note__head">
-      <h2>
+      <h2 class="note__title">
         <router-link :to="`/note/${note.id}`" tag="a">
           {{note.title}}
         </router-link>
       </h2>
-
-      <router-link
-         v-if="isEdit"
-         tag="button"
-         to="/"
-      >
-        Edit
-      </router-link>
-    </div>
 
     <div class="note__info">
       <small>
@@ -31,9 +21,19 @@
          v-for="todo in todoLimit"
          :key="todo.id"
          :todo="todo"
+         :is-toggle="isEdit"
          @toggle-todo="toggleTodo($event)"
       >
       </todo>
+    </div>
+
+    <div class="note__footer">
+      <router-link class="note__edit" :to="`/note/${note.id}`" tag="button">
+        Edit
+      </router-link>
+      <button class="note__remove" @click="removeNote()">
+        Remove
+      </button>
     </div>
   </div>
 </template>
@@ -60,17 +60,22 @@
 
       todoLimit() {
         return this.note.todos.slice(0, 5);
-      }
+      },
     },
     methods: {
       toggleTodo(todoId) {
         this.$store.dispatch('todoToggle', {id: this.note.id, todoId})
+      },
+      removeNote() {
+        this.$store.dispatch('removeNote', this.note.id);
       }
-    }
+    },
   }
 </script>
 
 <style scoped lang="scss">
+  @import "../../assets/scss/mixins";
+
   .note {
     background-color: #fff;
     flex: 0 0 calc(33.3% - 10px);
@@ -83,12 +88,8 @@
     border: 1px solid transparent;
     transition: all .2s;
 
-    &:nth-child(n + 3) {
+    &:nth-child(3n) {
       margin-right: 0;
-    }
-
-    &._outdate, ._outdate &__status {
-      border-color: #eb4559;
     }
 
     &._active, ._active &__status {
@@ -99,10 +100,6 @@
       border-color: #434e52;
     }
 
-    &:hover._outdate {
-      filter: drop-shadow(1px 1px 3px rgba(#eb4559, .6));
-    }
-
     &:hover._active {
       filter: drop-shadow(1px 1px 3px rgba(#b7efcd, .6));
     }
@@ -111,35 +108,22 @@
       filter: drop-shadow(1px 1px 3px rgba(#434e52, .6));
     }
 
-    &__head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+    &__title {
       margin-bottom: 10px;
       padding-bottom: 5px;
       border-bottom: 1px solid;
       border-color: inherit;
       font-size: 18px;
       line-height: 1.1;
+      padding-right: 10px;
 
-      h2 {
-        font-size: inherit;
-      }
-
-      button {
-        background-color: #52de97;
-        color: #fff;
-        padding: .4em .8em .3em;
-        border-radius: 10%;
-        text-align: center;
-        font-size: 60%;
-        line-height: inherit;
-        text-transform: capitalize;
-        cursor: pointer;
-        transition: all .3s;
+      a {
+        color: #424874;
+        transition: .3s;
+        word-break: break-all;
 
         &:hover {
-          background-color: #2c7873;
+          color: #1eb2a6;
         }
       }
     }
@@ -153,6 +137,38 @@
       text-transform: capitalize;
       border-bottom: 2px solid transparent;
       box-sizing: border-box;
+    }
+
+    &__footer {
+      opacity: 0;
+      visibility: hidden;
+      display: flex;
+      justify-content: space-between;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+      transition: all .3s;
+
+      button {
+        border-radius: 3px;
+        color: #fff;
+        font-size: 12px;
+        line-height: 1.1;
+        padding: .4em .6em;
+        cursor: pointer;
+      }
+    }
+
+    &:hover .note__footer {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    &__edit {
+      @include _slide-hover(#52de97, $dark: true)
+    }
+
+    &__remove {
+      @include _slide-hover(#d63447)
     }
   }
 </style>

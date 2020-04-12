@@ -4,13 +4,16 @@ Vue.use(Vuex);
 
 const state = {
   notes: JSON.parse(localStorage.getItem('notesList') || '[]'),
-  editMode: false
+  editOnHome: false
 };
 
+
 const getters = {
-  getNotes: (s) => s.notes,
-  getEdit: (s) => s.editMode
+  getNotes: s => s.notes,
+  getEdit: s => s.editOnHome,
+  getNoteById: s => id => s.notes.find(n => n.id === id)
 };
+
 
 const mutations = {
   addNote(s, note) {
@@ -19,7 +22,7 @@ const mutations = {
   },
 
   changeEdit(s, edit) {
-    s.editMode = edit && typeof(edit) === 'boolean' ? edit : !s.editMode;
+    s.editOnHome = edit && typeof(edit) === 'boolean' ? edit : !s.editOnHome;
   },
 
   todoToggle(s, {id, todoId}) {
@@ -32,8 +35,14 @@ const mutations = {
     todo.complete = !todo.complete;
     note.todos[todoIdx] = todo;
     s.notes[idx] = note;
+  },
+
+  removeNote(s, id) {
+    s.notes = s.notes.filter(n => n.id !== id);
+    localStorage.setItem('notesList', JSON.stringify(s.notes));
   }
 };
+
 
 const actions = {
   addNote({commit}, note) {
@@ -42,8 +51,13 @@ const actions = {
 
   todoToggle({commit}, payload) {
     commit('todoToggle', payload);
+  },
+
+  removeNote({commit}, id) {
+    commit('removeNote', id);
   }
 };
+
 
 export default new Vuex.Store({
   state,

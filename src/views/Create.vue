@@ -4,13 +4,12 @@
 
     <div class="_col">
       <div class="create__head _row">
-        <h1 v-if="title.length">{{title}}</h1>
-
-        <create-note
-           :is-edit="title.length > 0"
+        <note-title
+           :title="title"
+           :mode-edit="true"
            @add-title="addTitle($event)"
         >
-        </create-note>
+        </note-title>
       </div>
 
       <div class="_col"
@@ -41,7 +40,7 @@
 
 <script>
   import CreateTodo from '../components/todo/CreateTodo.vue';
-  import CreateNote from '../components/note/CreateNote.vue';
+  import NoteTitle from '../components/note/NoteTitle.vue';
   import Todo from '../components/todo/Todo';
   import { uid } from '../utils/index';
 
@@ -50,7 +49,7 @@
     components: {
       Todo,
       CreateTodo,
-      CreateNote
+      NoteTitle
     },
     data: () => ({
       title: '',
@@ -91,22 +90,15 @@
     padding: 2rem 1rem;
 
     &__head {
-      min-height: 54px;
       border-bottom: 1px solid #ccc;
-      margin-bottom: .4em;
-      padding-bottom: .4em;
-    }
-
-    h1 {
-      word-break: break-word;
-      font-style: 30px;
-      padding-right: 15px;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
     }
 
     h2 {
       border-bottom: 1px solid #ccc;
-      margin-bottom: .4em;
-      padding-bottom: .4em;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
     }
 
     h4 {
