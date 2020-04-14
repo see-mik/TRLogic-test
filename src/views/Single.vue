@@ -9,24 +9,24 @@
 
     <div class="single__head">
       <div class="single__title">
-        <note-title
-           :title="note.title"
+        <edit-text
+           :text="note.title"
            :mode-edit="isModeEdit"
-           @add-title="changeTitle($event)"
+           @add-text="changeTitle($event)"
         >
-        </note-title>
+          <template scope="props">
+            <h1>{{props.text}}</h1>
+          </template>
+        </edit-text>
       </div>
 
       <div class="single__info">
-        <div class="_row">
-          <div class="single__date">
-            Date: {{new Date(note.date).toLocaleDateString()}}
-          </div>
-          <div class="single__status">
-            Status: <span>{{note.status}}</span>
-          </div>
+        <div class="single__date">
+          Date: {{new Date(note.date).toLocaleDateString()}}
         </div>
-
+        <div class="single__status">
+          Status: <span>{{note.status}}</span>
+        </div>
       </div>
     </div>
 
@@ -47,7 +47,7 @@
 
 <script>
   import Activebar from '../components/Activebar.vue';
-  import NoteTitle from '../components/note/NoteTitle.vue';
+  import EditText from '../components/shated/EditText.vue';
   import TodoList from '../components/todo/TodoList.vue';
 
   export default {
@@ -55,7 +55,7 @@
     components: {
       TodoList,
       Activebar,
-      NoteTitle
+      EditText
     },
     data: () => ({
       isModeEdit: false,
@@ -97,6 +97,10 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+
+      .edit-text {
+        font-size: 20px;
+      }
     }
 
     &__title {

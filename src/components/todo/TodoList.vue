@@ -10,6 +10,7 @@
        v-for="todo in todos"
        :is-remove="isEdit"
        :is-toggle="isEdit"
+       :is-edit="isEdit"
        :todo="todo">
     </todo>
 

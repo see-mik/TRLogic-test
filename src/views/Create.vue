@@ -4,12 +4,15 @@
 
     <div class="_col">
       <div class="create__head _row">
-        <note-title
-           :title="title"
+        <edit-text
+           :text="title"
            :mode-edit="true"
-           @add-title="addTitle($event)"
+           @add-text="addTitle($event)"
         >
-        </note-title>
+          <template scope="props">
+            <h1>{{props.text}}</h1>
+          </template>
+        </edit-text>
       </div>
 
       <div class="_col"
@@ -40,7 +43,7 @@
 
 <script>
   import CreateTodo from '../components/todo/CreateTodo.vue';
-  import NoteTitle from '../components/note/NoteTitle.vue';
+  import EditText from '../components/shated/EditText.vue';
   import Todo from '../components/todo/Todo';
   import { uid } from '../utils/index';
 
@@ -49,7 +52,7 @@
     components: {
       Todo,
       CreateTodo,
-      NoteTitle
+      EditText
     },
     data: () => ({
       title: '',
@@ -93,6 +96,10 @@
       border-bottom: 1px solid #ccc;
       margin-bottom: 20px;
       padding-bottom: 20px;
+
+      .edit-text {
+        font-size: 20px;
+      }
     }
 
     h2 {

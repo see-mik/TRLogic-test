@@ -13,7 +13,12 @@
               :class="{_complete: todo.complete}"></span>
     </span>
 
-      {{todo.description}}
+      <edit-text class-name="todo-description"
+                 :text="todo.description"
+                 :mode-edit="isEdit"
+                 @add-text="editTodo($event)"
+      >
+      </edit-text>
     </label>
 
     <button
@@ -24,21 +29,28 @@
 </template>
 
 <script>
+  import EditText from '@/components/shated/EditText.vue';
+
   export default {
     name: 'todo',
     props: {
       isRemove: Boolean,
       isToggle: Boolean,
+      isEdit: Boolean,
       todo: {
-        id: Number,
-        description: String,
-        complete: Boolean
+        type: Object,
+        required: true
       }
     },
-
+    components: {
+      EditText
+    },
     methods: {
       changeHandler() {
         this.$emit('toggle-todo', this.todo.id);
+      },
+      editTodo(text){
+        console.log(text);
       },
       removeTodo() {
         this.$emit('remove-todo', this.todo.id);
@@ -61,6 +73,8 @@
   }
 
   .checkbox {
+    display: flex;
+    align-items: center;
     margin-right: 15px;
 
     input {
@@ -110,6 +124,7 @@
     font-size: 14px;
     white-space: nowrap;
     overflow: hidden;
+    padding: .1em;
     text-overflow: ellipsis;
 
     ._complete {

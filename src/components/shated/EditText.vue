@@ -1,19 +1,23 @@
 <template>
-  <form @submit.prevent="addTitle()">
+  <form class="edit-text" @submit.prevent="addTitle()">
 
     <div class="head">
       <input name="title"
-             :class="{_switchEditElement: edit}"
-             v-model="rawTitle"
-             :autofocus="edit"
+             :class="{'_switchEditElement': edit}"
+             v-model="rawText"
              placeholder="Enter title and press 'Enter'...">
 
-      <h1 :class="{_switchEditElement: !edit}">{{title}}</h1>
+      <div class="text"
+           :class="{'_switchEditElement': !edit}">
+        <slot :text="text">
+          <h6>{{text}}</h6>
+        </slot>
+      </div>
     </div>
 
     <button class="edit" type="submit"
             v-if="modeEdit"
-            :disabled="!rawTitle.length"
+            :disabled="!rawText.length"
             :class="{_on: editOn}">
       {{ edit ? "Edit" : "Add" }}
     </button>
@@ -24,16 +28,17 @@
   export default {
     name: 'create-note',
     props: {
-      title: String,
+      className: String,
+      text: String,
       modeEdit: Boolean
     },
     data: () => ({
-      rawTitle: null,
+      rawText: null,
       editOn: null
     }),
     beforeMount() {
-      this.rawTitle = this.title || '';
-      this.editOn = this.title.length > 0;
+      this.rawText = this.text || '';
+      this.editOn = this.text.length > 0;
     },
     computed: {
       edit() {
@@ -42,8 +47,8 @@
     },
     methods: {
       addTitle() {
-        if (!this.editOn && this.title !== this.rawTitle) {
-          this.$emit('add-title', this.rawTitle);
+        if (!this.editOn && this.text !== this.rawText) {
+          this.$emit('add-text', this.rawText);
         }
         this.editOn = !this.editOn;
       }
@@ -54,32 +59,36 @@
 <style scoped lang="scss">
   @import "../../assets/scss/mixins";
 
-  form {
+  .edit-text {
     align-self: stretch;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    flex: 1 0 100%;
+    flex: 1 0 auto;
+    font-size: 14px;
 
     .head {
       align-self: stretch;
       flex-grow: 1;
       margin-right: 15px;
       position: relative;
+      display: flex;
 
-      h1 {
+      .text > * {
         word-break: break-all;
       }
 
-      h1, input {
-        padding: 10px;
-        margin-left: -10px;
-        width: 100%;
-        margin-right: 10px;
-        font-size: 20px;
+      .text > *, input {
+        font-size: inherit;
         font-family: var(--font);
         font-weight: bold;
-        line-height: 1.1;
+        line-height: 1.5;
+      }
+
+      .text, input {
+        padding: .4em;
+        margin-left: -.4em;
+        width: 100%;
         box-sizing: border-box;
         transition: all .3s;
       }
@@ -103,10 +112,11 @@
 
   button {
     flex-shrink: 0;
-    padding: .7rem 1.3rem;
+    padding: .4rem 1.5rem;
     border-radius: 3px;
     color: #fff;
-    font-size: 15px;
+    line-height: 1.5;
+    font-size: 13px;
     cursor: pointer;
     transition: all .3s;
 
