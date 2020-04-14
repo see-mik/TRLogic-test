@@ -4,6 +4,7 @@ import router from './router';
 import store from './store';
 
 Vue.config.productionTip = false;
+export const eventEmmiter = new Vue();
 
 new Vue({
   router,

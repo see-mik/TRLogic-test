@@ -21,8 +21,6 @@
          v-for="todo in todoLimit"
          :key="todo.id"
          :todo="todo"
-         :is-toggle="isEdit"
-         @toggle-todo="toggleTodo($event)"
       >
       </todo>
     </div>
@@ -63,9 +61,6 @@
       },
     },
     methods: {
-      toggleTodo(todoId) {
-        this.$store.dispatch('todoToggle', {id: this.note.id, todoId})
-      },
       removeNote() {
         this.$store.dispatch('removeNote', this.note.id);
       }

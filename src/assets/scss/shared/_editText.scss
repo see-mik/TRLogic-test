@@ -1,0 +1,65 @@
+@import "../mixins";
+
+.edit-text {
+  flex: 1 0 auto;
+  align-self: stretch;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-family: var(--font);
+
+  &__head {
+    align-self: stretch;
+    flex-grow: 1;
+    margin-right: 15px;
+    position: relative;
+    display: flex;
+  }
+
+  &__title > * {
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
+  }
+
+  &__title, &__input {
+    padding: .4em;
+    margin-left: -.4em;
+    width: 100%;
+    font-family: var(--font);
+    box-sizing: border-box;
+    transition: all .3s;
+  }
+
+  &__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px #eee;
+  }
+
+  &__title._switchEditElement,
+  &__input._switchEditElement {
+    opacity: 0;
+    visibility: hidden;
+    z-index: -1;
+  }
+
+  &__btn {
+    flex-shrink: 0;
+    padding: .4rem 1rem;
+    border-radius: 3px;
+    color: #fff;
+    line-height: 1.5;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .3s;
+
+    @include _slide-hover(#537ec5);
+
+    &._on {
+      @include _slide-hover(#75daad, $dark: true);
+    }
+  }
+}

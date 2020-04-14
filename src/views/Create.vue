@@ -4,15 +4,12 @@
 
     <div class="_col">
       <div class="create__head _row">
-        <edit-text
+        <note-title
            :text="title"
            :mode-edit="true"
            @add-text="addTitle($event)"
         >
-          <template scope="props">
-            <h1>{{props.text}}</h1>
-          </template>
-        </edit-text>
+        </note-title>
       </div>
 
       <div class="_col"
@@ -22,7 +19,6 @@
               :key="todo.id"
               :is-edit="false"
               :is-remove="true"
-              @remove-todo="removeTodo($event)"
         >
         </todo>
       </div>
@@ -42,8 +38,9 @@
 </template>
 
 <script>
+  import { eventEmmiter } from '@/main';
   import CreateTodo from '../components/todo/CreateTodo.vue';
-  import EditText from '../components/shated/EditText.vue';
+  import NoteTitle from '../components/note/NoteTitle.vue';
   import Todo from '../components/todo/Todo';
   import { uid } from '../utils/index';
 
@@ -52,12 +49,17 @@
     components: {
       Todo,
       CreateTodo,
-      EditText
+      NoteTitle
     },
     data: () => ({
       title: '',
       todos: []
     }),
+    created(){
+      eventEmmiter.$on('remove-todo', id => {
+        this.todos = this.todos.filter(t => t.id !== id);
+      });
+    },
     methods: {
       submitHandle() {
         const note = {
@@ -77,9 +79,6 @@
       addTodo(todo) {
         this.todos = [todo, ...this.todos];
       },
-      removeTodo(id) {
-        this.todos = this.todos.filter(t => t.id !== id);
-      }
     }
   }
 </script>

@@ -8,31 +8,29 @@
     </activebar>
 
     <div class="single__head">
+      <div class="single__info">
+        <div class="single__status">
+          Status: <span>{{note.status}}</span>
+        </div>
+        <div class="single__date">
+          Date: {{new Date(note.date).toLocaleDateString()}}
+        </div>
+      </div>
+
       <div class="single__title">
-        <edit-text
+        <note-title
            :text="note.title"
            :mode-edit="isModeEdit"
            @add-text="changeTitle($event)"
         >
-          <template scope="props">
-            <h1>{{props.text}}</h1>
-          </template>
-        </edit-text>
-      </div>
-
-      <div class="single__info">
-        <div class="single__date">
-          Date: {{new Date(note.date).toLocaleDateString()}}
-        </div>
-        <div class="single__status">
-          Status: <span>{{note.status}}</span>
-        </div>
+        </note-title>
       </div>
     </div>
 
     <todo-list
        :is-edit="isModeEdit"
        :todos="note.todos"
+       :note-id="note.id"
        @add-todo="addTodo($event)"
     >
     </todo-list>
@@ -46,36 +44,52 @@
 </template>
 
 <script>
+  import { eventEmmiter } from '@/main';
   import Activebar from '../components/Activebar.vue';
-  import EditText from '../components/shated/EditText.vue';
+  import NoteTitle from '../components/note/NoteTitle.vue';
   import TodoList from '../components/todo/TodoList.vue';
+  import Note from '../components/note/Note';
 
   export default {
     name: 'single',
     components: {
+      Note,
       TodoList,
       Activebar,
-      EditText
+      NoteTitle
     },
     data: () => ({
       isModeEdit: false,
       note: null
     }),
-    computed: {},
+    created(){
+      eventEmmiter.$on('toggle-todo', id => {
+        this.$store.dispatch('todoToggle', {id: this.note.id, todoId: id});
+      });
+
+      eventEmmiter.$on('remove-todo', id => {
+        this.note.todos = this.note.todos.filter(t => t.id !== id);
+      });
+
+      eventEmmiter.$on('edit-todo', ({id, text}) => {
+        const idx = this.note.todos.findIndex(t => t.id === id);
+        this.note.todos[idx].description = text;
+      });
+    },
     beforeMount() {
       this.note = this.getNote();
       this.isModeEdit = this.$route.query.mode === 'edit';
     },
     methods: {
+      addTodo(todo) {
+        this.note.todos = [todo, ...this.note.todos];
+      },
       getNote() {
         const id = parseInt(this.$route.params.id);
         return this.$store.getters.getNoteById(id);
       },
       changeTitle(title) {
         this.note.title = title;
-      },
-      addTodo(todo) {
-        this.note.todos = [todo, ...this.note.todos]
       },
       removeNote() {
         this.$store.dispatch('removeNote', this.getNote.id);
@@ -97,10 +111,6 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-
-      .edit-text {
-        font-size: 20px;
-      }
     }
 
     &__title {
