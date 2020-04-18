@@ -21,7 +21,7 @@
 
       <n-todo-title
          :is-complete="todo.complete"
-         :text="todo.description"
+         :text="todo.labelText"
          :mode-edit="isEdit"
          @add-text="editTodo($event)"
       />
@@ -39,6 +39,7 @@
 <script>
   import nTodoTitle from './n-todo-title.vue';
   import { eventEmitter } from '@/main';
+  import Todo from '../../models/Todo.model';
 
   export default {
     name: 'n-todo',
@@ -51,7 +52,7 @@
       isEdit: Boolean,
       todo: {
         type: Object,
-        required: true
+        default:() => new Todo()
       }
     },
     methods: {

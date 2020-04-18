@@ -87,12 +87,14 @@
       this.note = {...this.getNote()};
       this.isModeEdit = this.$route.query.mode === 'edit';
     },
+    computed: {
+      ...mapGetters(['NOTE_BY_ID'])
+    },
     methods: {
-      ...mapActions(['removeNote', 'updateNote']),
+      ...mapActions(['REMOVE_NOTE', 'UPDATE_NOTE']),
 
       getNote() {
-        const id = parseInt(this.$route.params.id);
-        return this.$store.getters.getNoteById(id);
+        return this.NOTE_BY_ID(parseInt(this.$route.params.id));
       },
       addTodo(todo) {
         this.note.todos = [todo, ...this.note.todos];
@@ -102,13 +104,13 @@
       },
 
       removeNote() {
-        this.removeNote(this.note.id);
+        this.REMOVE_NOTE(this.note.id);
         this.$router.push('/');
       },
 
       saveChanges() {
         if (JSON.stringify(this.note) !== JSON.stringify(this.getNote())) {
-          this.updateNote(this.note);
+          this.UPDATE_NOTE(this.note);
         }
       },
       cancelChanges() {

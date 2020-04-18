@@ -26,8 +26,14 @@
       nTodo
     },
     props: {
-      todos: Array,
-      isEdit: Boolean
+      todos: {
+        type: Array,
+        default: () => []
+      },
+      isEdit: {
+        type: Boolean,
+        default: () => false
+      }
     }
   }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="n-home">
-    <div v-if="notesList.length">
-      <n-note-list :notes="notesList" />
+    <div v-if="NOTES.length">
+      <n-note-list :notes="NOTES" />
     </div>
 
     <div class="n-home__empty" v-else>
@@ -16,6 +16,7 @@
 
 <script>
   import nNoteList from '../components/note/n-note-list.vue';
+  import { mapGetters } from 'vuex';
 
   export default {
     name: 'n-home',
@@ -23,9 +24,7 @@
       nNoteList
     },
     computed: {
-      notesList () {
-        return this.$store.getters.getNotes;
-      }
+      ...mapGetters(['NOTES'])
     },
   }
 </script>

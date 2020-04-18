@@ -48,6 +48,8 @@
 
 <script>
   import nTodo from '../todo/n-todo.vue';
+  import { mapActions } from 'vuex';
+  import Note from '../../models/Note.model';
 
   export default {
     name: 'n-note',
@@ -56,23 +58,20 @@
     },
     props: {
       note: {
-        id: String,
-        title: String,
-        todos: [Object]
+        type: Object,
+        default: () => new Note()
       }
     },
     computed: {
-      isEdit() {
-        return this.$store.getters.getEdit;
-      },
-
       todoLimit() {
         return this.note.todos.slice(0, 5);
       },
     },
     methods: {
+      ...mapActions(['REMOVE_NOTE']),
+
       removeNote() {
-        this.$store.dispatch('removeNote', this.note.id);
+        this.REMOVE_NOTE(this.note.id);
       }
     },
   }

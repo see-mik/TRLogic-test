@@ -1,9 +1,9 @@
 <template>
   <div class="n-note-list">
     <n-note
-       v-for="(note, idx) in notes"
+       v-for="note in notes"
        :note="note"
-       :key="idx"
+       :key="note.id"
     />
   </div>
 </template>
@@ -17,7 +17,11 @@
       nNote
     },
     props: {
-      notes: Array
+      notes: {
+        type: Array,
+        required: true,
+        default: () => []
+      }
     }
   }
 </script>

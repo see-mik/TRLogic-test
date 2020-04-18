@@ -6,14 +6,14 @@
     <input
        class="n-create-todo__input"
        type="text"
-       v-model="description"
+       v-model="labelText"
        placeholder="Enter todo..."
     >
 
     <button
        class="n-create-todo__submit"
        type="submit"
-       :disabled="!description.length"
+       :disabled="!labelText.length"
     >Add
     </button>
   </form>
@@ -21,22 +21,23 @@
 
 <script>
   import { uid } from '../../utils/utils';
+  import Todo from '../../models/Todo.model';
+  
 
   export default {
     name: 'n-create-todo',
     data: () => ({
-      description: ''
+      labelText: ''
     }),
     methods: {
       submitHandle() {
-        const todo = {
+        const todo = new Todo({
           id: uid(),
-          description: this.description,
-          complete: false
-        };
+          labelText: this.labelText
+        });
         this.$emit('add-todo', todo);
 
-        this.description = '';
+        this.labelText = '';
       }
     }
   }

@@ -45,6 +45,10 @@
 <script>
   import { eventEmitter } from '@/main';
   import { uid } from '../utils/utils';
+  import { mapActions } from 'vuex';
+  import Note from '../models/Note.model';
+
+
   import nCreateTodo from '../components/todo/n-create-todo.vue';
   import nNoteTitle from '../components/note/n-note-title.vue';
   import nTodo from '../components/todo/n-todo';
@@ -66,16 +70,16 @@
       });
     },
     methods: {
+      ...mapActions(['ADD_NOTE']),
+
       submitHandle() {
-        const note = {
+        const note = new Note({
           id: uid(),
           title: this.title,
-          todos: this.todos,
-          status: 'active',
-          date: new Date()
-        };
+          todos: this.todos
+        });
 
-        this.$store.dispatch('addNote', note);
+        this.ADD_NOTE(note);
         this.$router.push('/');
       },
       addTitle(title) {
