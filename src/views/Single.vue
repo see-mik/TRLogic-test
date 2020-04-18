@@ -36,15 +36,16 @@
     </todo-list>
 
     <div class="single__footer">
-      <button class="single__save">Save</button>
-      <button class="single__cancel">Cancel</button>
+      <button class="single__save" @click="saveChanges()">Save</button>
+      <button class="single__cancel" @click="cancelChanges()">Cancel</button>
     </div>
 
   </div>
 </template>
 
 <script>
-  import { eventEmmiter } from '@/main';
+  import { mapActions, mapGetters } from 'vuex';
+  import { eventEmmiter } from '../main';
   import Activebar from '../components/Activebar.vue';
   import NoteTitle from '../components/note/NoteTitle.vue';
   import TodoList from '../components/todo/TodoList.vue';
@@ -64,7 +65,8 @@
     }),
     created(){
       eventEmmiter.$on('toggle-todo', id => {
-        this.$store.dispatch('todoToggle', {id: this.note.id, todoId: id});
+        const idx = this.note.todos.findIndex(t => t.id === id);
+        this.note.todos[idx].complete = !this.note.todos[idx].complete;
       });
 
       eventEmmiter.$on('remove-todo', id => {
@@ -77,23 +79,37 @@
       });
     },
     beforeMount() {
-      this.note = this.getNote();
+      this.note = {...this.getNote()};
       this.isModeEdit = this.$route.query.mode === 'edit';
     },
     methods: {
-      addTodo(todo) {
-        this.note.todos = [todo, ...this.note.todos];
-      },
+      ...mapActions(['removeNote', 'updateNote']),
+
       getNote() {
         const id = parseInt(this.$route.params.id);
         return this.$store.getters.getNoteById(id);
       },
+      addTodo(todo) {
+        this.note.todos = [todo, ...this.note.todos];
+      },
       changeTitle(title) {
         this.note.title = title;
       },
+
       removeNote() {
-        this.$store.dispatch('removeNote', this.getNote.id);
+        this.removeNote(this.note.id);
         this.$router.push('/');
+      },
+
+      saveChanges() {
+        if (JSON.stringify(this.note) !== JSON.stringify(this.getNote())) {
+          this.updateNote(this.note);
+        }
+      },
+      cancelChanges() {
+        if (confirm('Are you sure you want to discus changes ?')) {
+          this.note = this.getNote();
+        }
       }
     }
   }

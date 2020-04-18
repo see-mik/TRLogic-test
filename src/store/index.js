@@ -21,20 +21,14 @@ const mutations = {
     localStorage.setItem('notesList', JSON.stringify(s.notes));
   },
 
-  changeEdit(s, edit) {
-    s.editOnHome = edit && typeof(edit) === 'boolean' ? edit : !s.editOnHome;
+  updateNote(s, note) {
+    const idx = s.notes.findIndex(n => n.id === note.id);
+    s.notes[idx] = note;
+    localStorage.setItem('notesList', JSON.stringify(s.notes));
   },
 
-  todoToggle(s, {id, todoId}) {
-    const idx = s.notes.findIndex(n => n.id === id);
-    let note = s.notes[idx];
-
-    const todoIdx = note.todos.findIndex(t => t.id === todoId);
-    let todo = note.todos[todoIdx];
-
-    todo.complete = !todo.complete;
-    note.todos[todoIdx] = todo;
-    s.notes[idx] = note;
+  changeEdit(s, edit) {
+    s.editOnHome = edit && typeof(edit) === 'boolean' ? edit : !s.editOnHome;
   },
 
   removeNote(s, id) {
@@ -49,8 +43,8 @@ const actions = {
     commit('addNote', note);
   },
 
-  todoToggle({commit}, payload) {
-    commit('todoToggle', payload);
+  updateNote({commit}, note) {
+    commit('updateNote', note);
   },
 
   removeNote({commit}, id) {
