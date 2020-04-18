@@ -6,7 +6,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  font-family: var(--font);
+  font-family: $font_main;
 
   &__head {
     align-self: stretch;
@@ -26,7 +26,7 @@
     padding: .4em;
     margin-left: -.4em;
     width: 100%;
-    font-family: var(--font);
+    font-family: $font_main;
     box-sizing: border-box;
     transition: all .3s;
   }

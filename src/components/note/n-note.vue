@@ -1,48 +1,58 @@
 <template>
-  <div class="note _col"
-       :class="{_active: true}">
-      <h2 class="note__title">
-        <router-link :to="`/note/${note.id}`" tag="a">
-          {{note.title}}
-        </router-link>
-      </h2>
+  <div
+     class="n-note _col"
+     :class="{_active: true}"
+  >
+    <h2 class="n-note__title">
+      <router-link
+         :to="`/note/${note.id}`"
+         tag="a"
+      >{{note.title}}
+      </router-link>
+    </h2>
 
-    <div class="note__info">
+    <div class="n-note__info">
       <small>
-        Status: <span class="note__status">{{note.status}}</span>
+        Status:
+        <span class="n-note__status">{{note.status}}</span>
       </small>
       <small class="date">
-        Created: {{new Date(note.date).toLocaleDateString()}}
+        Created:
+        {{new Date(note.date).toLocaleDateString()}}
       </small>
     </div>
 
-    <div class="todo-list _col">
-      <todo
+    <div class="_col">
+      <n-todo
          v-for="todo in todoLimit"
          :key="todo.id"
          :todo="todo"
-      >
-      </todo>
+      />
     </div>
 
-    <div class="note__footer">
-      <router-link class="note__edit" :to="`/note/${note.id}`" tag="button">
-        Edit
+    <div class="n-note__footer">
+      <router-link
+         class="n-note__edit"
+         :to="`/note/${note.id}`"
+         tag="button"
+      >Edit
       </router-link>
-      <button class="note__remove" @click="removeNote()">
-        Remove
+      <button
+         class="n-note__remove"
+         @click="removeNote()"
+      >Remove
       </button>
     </div>
   </div>
 </template>
 
 <script>
-  import Todo from '../todo/Todo.vue';
+  import nTodo from '../todo/n-todo.vue';
 
   export default {
-    name: 'note',
+    name: 'n-note',
     components: {
-      Todo
+      nTodo
     },
     props: {
       note: {
@@ -68,10 +78,8 @@
   }
 </script>
 
-<style scoped lang="scss">
-  @import "../../assets/scss/mixins";
-
-  .note {
+<style lang="scss">
+  .n-note {
     background-color: #fff;
     flex: 0 0 calc(33.3% - 10px);
     margin-right: 15px;
@@ -153,7 +161,7 @@
       }
     }
 
-    &:hover .note__footer {
+    &:hover .n-note__footer {
       opacity: 1;
       visibility: visible;
     }

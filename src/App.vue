@@ -1,48 +1,44 @@
 <template>
-  <div id="app">
-    <div class="wrap">
-      <navbar></navbar>
+  <div id="app" class="app">
+    <div class="app__wrap">
+      <n-navbar />
       <main class="container">
-        <router-view></router-view>
+        <router-view />
       </main>
     </div>
   </div>
 </template>
 
 <script>
-  import Navbar from './components/Navbar.vue'
+  import nNavbar from './components/n-navbar.vue'
 
   export default {
     name: 'App',
     components: {
-      Navbar
+      nNavbar
     }
   }
 </script>
 
 <style lang="scss">
-  @import "assets/scss/index";
+  @import "./assets/scss/style";
 
-  html, body {
-    height: 100%;
-  }
-
-  #app {
+  .app {
     display: flex;
     height: 100%;
-  }
 
-  .wrap {
-    display: flex;
-    flex-direction: column;
-    flex: 1 0 100%;
-  }
+    &__wrap {
+      display: flex;
+      flex-direction: column;
+      flex: 1 0 100%;
 
-  header, footer {
-    flex: 0 1 auto;
-  }
+      header, footer {
+        flex: 0 1 auto;
+      }
 
-  main {
-    flex: 1 0 auto;
+      main {
+        flex: 1 0 auto;
+      }
+    }
   }
 </style>

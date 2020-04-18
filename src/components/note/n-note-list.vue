@@ -1,21 +1,20 @@
 <template>
-  <div class="notes">
-    <note
+  <div class="n-note-list">
+    <n-note
        v-for="(note, idx) in notes"
        :note="note"
        :key="idx"
-    >
-    </note>
+    />
   </div>
 </template>
 
 <script>
-  import Note from './Note.vue';
+  import nNote from './n-note.vue';
 
   export default {
-    name: 'note-list',
+    name: 'n-note-list',
     components: {
-      Note
+      nNote
     },
     props: {
       notes: Array
@@ -23,8 +22,8 @@
   }
 </script>
 
-<style scoped lang="scss">
-  .notes {
+<style lang="scss">
+  .n-note-list {
     padding: 1rem 15px;
     display: flex;
     flex-wrap: wrap;

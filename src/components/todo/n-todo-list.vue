@@ -1,31 +1,29 @@
 <template>
-  <div class="list">
-    <create-todo
+  <div class="n-todo-list">
+    <n-create-todo
        v-if="isEdit"
        @add-todo="$emit('add-todo', $event)"
-    >
-    </create-todo>
+    />
 
-    <todo
+    <n-todo
        v-for="todo in todos"
        :is-remove="isEdit"
        :is-toggle="isEdit"
        :is-edit="isEdit"
-       :todo="todo">
-    </todo>
-
+       :todo="todo"
+    />
   </div>
 </template>
 
 <script>
-  import Todo from './Todo.vue';
-  import CreateTodo from './CreateTodo';
+  import nTodo from './n-todo.vue';
+  import nCreateTodo from './n-create-todo';
 
   export default {
-    name: 'todo-list',
+    name: 'n-todo-list',
     components: {
-      CreateTodo,
-      Todo
+      nCreateTodo,
+      nTodo
     },
     props: {
       todos: Array,
@@ -34,8 +32,8 @@
   }
 </script>
 
-<style scoped lang="scss">
-  .list {
+<style lang="scss">
+  .n-todo-list {
     display: flex;
     flex-direction: column;
   }

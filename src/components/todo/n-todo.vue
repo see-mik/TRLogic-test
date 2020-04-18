@@ -1,39 +1,50 @@
 <template>
-  <div class="todo _row">
-    <div class="todo__label">
+  <div class="n-todo _row">
+    <div class="n-todo__label">
 
-      <label class="todo__checkbox"
-             :for="`todo-${todo.id}`"
-             v-if="isToggle">
-        <input type="checkbox"
-               :id="`todo-${todo.id}`"
-               :value="todo.complete"
-               @change="toggleTodo()">
-        <span class="todo__switch"
-              :class="{_complete: todo.complete}"></span>
+      <label
+         class="n-todo__checkbox"
+         :for="`todo-${todo.id}`"
+         v-if="isToggle"
+      >
+        <input
+           type="checkbox"
+           :id="`todo-${todo.id}`"
+           :value="todo.complete"
+           @change="toggleTodo()"
+        >
+        <span
+           class="n-todo__switch"
+           :class="{_complete: todo.complete}"
+        ></span>
       </label>
 
-      <todo-title :is-complete="todo.complete"
-                  :text="todo.description"
-                  :mode-edit="isEdit"
-                  @add-text="editTodo($event)"
-      >
-      </todo-title>
+      <n-todo-title
+         :is-complete="todo.complete"
+         :text="todo.description"
+         :mode-edit="isEdit"
+         @add-text="editTodo($event)"
+      />
     </div>
 
-    <button class="todo__remove"
-            v-if="isRemove"
-            @click="removeTodo()">&times;
+    <button
+       class="n-todo__remove"
+       v-if="isRemove"
+       @click="removeTodo()"
+    >&times;
     </button>
   </div>
 </template>
 
 <script>
-  import TodoTitle from './TodoTitle.vue';
-  import { eventEmmiter } from '@/main';
+  import nTodoTitle from './n-todo-title.vue';
+  import { eventEmitter } from '@/main';
 
   export default {
-    name: 'todo',
+    name: 'n-todo',
+    components: {
+      nTodoTitle
+    },
     props: {
       isRemove: Boolean,
       isToggle: Boolean,
@@ -43,27 +54,22 @@
         required: true
       }
     },
-    components: {
-      TodoTitle
-    },
     methods: {
       toggleTodo() {
-        eventEmmiter.$emit('toggle-todo', this.todo.id);
+        eventEmitter.$emit('toggle-todo', this.todo.id);
       },
       editTodo(text){
-        eventEmmiter.$emit('edit-todo', {id: this.todo.id, text});
+        eventEmitter.$emit('edit-todo', {id: this.todo.id, text});
       },
       removeTodo() {
-        eventEmmiter.$emit('remove-todo', this.todo.id);
+        eventEmitter.$emit('remove-todo', this.todo.id);
       }
     }
   }
 </script>
 
-<style scoped lang="scss">
-  @import "../../assets/scss/mixins";
-
-  .todo {
+<style lang="scss">
+  .n-todo {
     align-items: center;
     padding: .6rem 0;
     border-bottom: 1px solid #a3a3a3;

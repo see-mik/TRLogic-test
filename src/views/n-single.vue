@@ -1,43 +1,48 @@
 <template>
-  <div class="single">
-    <activebar
+  <div class="n-single">
+    <n-activebar
        :is-edit="isModeEdit"
        @toggle-edit="isModeEdit = !isModeEdit"
        @remove-note="removeNote()"
-    >
-    </activebar>
+    />
 
-    <div class="single__head">
-      <div class="single__info">
-        <div class="single__status">
+    <div class="n-single__head">
+      <div class="n-single__info">
+        <div class="n-single__status">
           Status: <span>{{note.status}}</span>
         </div>
-        <div class="single__date">
+        <div class="n-single__date">
           Date: {{new Date(note.date).toLocaleDateString()}}
         </div>
       </div>
 
-      <div class="single__title">
-        <note-title
+      <div class="n-single__title">
+        <n-note-title
            :text="note.title"
            :mode-edit="isModeEdit"
            @add-text="changeTitle($event)"
-        >
-        </note-title>
+        />
       </div>
     </div>
 
-    <todo-list
+    <n-todo-list
        :is-edit="isModeEdit"
        :todos="note.todos"
        :note-id="note.id"
        @add-todo="addTodo($event)"
-    >
-    </todo-list>
+    />
 
-    <div class="single__footer">
-      <button class="single__save" @click="saveChanges()">Save</button>
-      <button class="single__cancel" @click="cancelChanges()">Cancel</button>
+    <div class="n-single__footer">
+      <button
+         class="n-single__save"
+         @click="saveChanges()"
+      >Save
+      </button>
+      <button
+         class="n-single__cancel"
+         @click="cancelChanges()"
+      >Cancel
+      </button>
     </div>
 
   </div>
@@ -45,35 +50,35 @@
 
 <script>
   import { mapActions, mapGetters } from 'vuex';
-  import { eventEmmiter } from '../main';
-  import Activebar from '../components/Activebar.vue';
-  import NoteTitle from '../components/note/NoteTitle.vue';
-  import TodoList from '../components/todo/TodoList.vue';
-  import Note from '../components/note/Note';
+  import { eventEmitter } from '../main';
+  import nActivebar from '../components/n-activebar.vue';
+  import nNoteTitle from '../components/note/n-note-title.vue';
+  import nTodoList from '../components/todo/n-todo-list.vue';
+  import nNote from '../components/note/n-note';
 
   export default {
-    name: 'single',
+    name: 'n-single',
     components: {
-      Note,
-      TodoList,
-      Activebar,
-      NoteTitle
+      nNote,
+      nTodoList,
+      nActivebar,
+      nNoteTitle
     },
     data: () => ({
       isModeEdit: false,
       note: null
     }),
     created(){
-      eventEmmiter.$on('toggle-todo', id => {
+      eventEmitter.$on('toggle-todo', id => {
         const idx = this.note.todos.findIndex(t => t.id === id);
         this.note.todos[idx].complete = !this.note.todos[idx].complete;
       });
 
-      eventEmmiter.$on('remove-todo', id => {
+      eventEmitter.$on('remove-todo', id => {
         this.note.todos = this.note.todos.filter(t => t.id !== id);
       });
 
-      eventEmmiter.$on('edit-todo', ({id, text}) => {
+      eventEmitter.$on('edit-todo', ({id, text}) => {
         const idx = this.note.todos.findIndex(t => t.id === id);
         this.note.todos[idx].description = text;
       });
@@ -115,10 +120,8 @@
   }
 </script>
 
-<style scoped lang="scss">
-  @import "../assets/scss/mixins";
-
-  .single {
+<style lang="scss">
+  .n-single {
     width: 700px;
     margin: 0 auto;
     padding: 25px 15px;
