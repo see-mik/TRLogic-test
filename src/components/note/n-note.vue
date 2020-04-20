@@ -33,7 +33,7 @@
     <div class="n-note__footer">
       <router-link
          class="n-note__edit"
-         :to="`/note/${note.id}`"
+         :to="`/note/${note.id}?mode=edit`"
          tag="button"
       >Edit
       </router-link>
@@ -43,19 +43,31 @@
       >Remove
       </button>
     </div>
+
+    <n-confirmation-popup
+       v-if="isConfirmationVisible"
+       @onConfirmationApply="applyConfirmationPopup"
+       @onConfirmationCancel="closeConfirmationPopup"
+    />
   </div>
 </template>
 
 <script>
   import nTodo from '../todo/n-todo.vue';
+  import nConfirmationPopup from './../features/n-confirmation-popup.vue';
+
   import { mapActions } from 'vuex';
   import Note from '../../models/Note.model';
 
   export default {
     name: 'n-note',
     components: {
-      nTodo
+      nTodo,
+      nConfirmationPopup
     },
+    data: () => ({
+      isConfirmationVisible: false
+    }),
     props: {
       note: {
         type: Object,
@@ -71,7 +83,14 @@
       ...mapActions(['REMOVE_NOTE']),
 
       removeNote() {
+        this.isConfirmationVisible = true;
+      },
+      applyConfirmationPopup() {
         this.REMOVE_NOTE(this.note.id);
+        this.isConfirmationVisible =false;
+      },
+      closeConfirmationPopup() {
+        this.isConfirmationVisible = false;
       }
     },
   }
@@ -103,11 +122,11 @@
     }
 
     &:hover._active {
-      filter: drop-shadow(1px 1px 3px rgba(#b7efcd, .6));
+      box-shadow: 1px 1px 3px rgba(#b7efcd, .6);
     }
 
     &:hover._done {
-      filter: drop-shadow(1px 1px 3px rgba(#434e52, .6));
+      box-shadow: 1px 1px 3px rgba(#434e52, .6);
     }
 
     &__title {
@@ -166,11 +185,11 @@
     }
 
     &__edit {
-      @include _slide-hover(#52de97, $dark: true)
+      @include _slide-hover($success, $dark: true)
     }
 
     &__remove {
-      @include _slide-hover(#d63447)
+      @include _slide-hover($danger, $dark: true)
     }
   }
 </style>

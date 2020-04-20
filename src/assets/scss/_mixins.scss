@@ -1,4 +1,5 @@
 @mixin _slide-hover($bgc: cornsilk, $dark: false, $radius: 3px) {
+  background-color: $bgc;
   position: relative;
   z-index: 1;
   border-radius: $radius;

@@ -56,10 +56,10 @@
     cursor: pointer;
     transition: all .3s;
 
-    @include _slide-hover(#537ec5);
+    @include _slide-hover($primary);
 
     &._on {
-      @include _slide-hover(#75daad, $dark: true);
+      @include _slide-hover($success, $dark: true);
     }
   }
 }

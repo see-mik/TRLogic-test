@@ -56,6 +56,7 @@
       padding: .5em 1.6em;
       border-radius: 3px;
       cursor: pointer;
+      color: #fff;
 
       &:last-child {
         margin-right: 0;
@@ -63,20 +64,19 @@
     }
 
     &__edit {
-      @include _slide-hover($bgc: #00bdaa, $dark: true);
+      @include _slide-hover($bgc: $success, $dark: true);
 
       &._on {
-        @include _slide-hover($bgc: #ffd868, $dark: true);
+        @include _slide-hover($bgc: $warning, $dark: true);
       }
     }
 
     &__remove {
-      @include _slide-hover($bgc: #ff5858, $dark: true);
+      @include _slide-hover($bgc: $danger, $dark: true);
     }
 
     &__do, &__undo {
-      @include _slide-hover($bgc: #4a47a3);
-      color: #fff;
+      @include _slide-hover($bgc: $primary);
     }
   }
 </style>

@@ -45,6 +45,11 @@
       </button>
     </div>
 
+    <n-confirmation-popup
+       v-if="isConfirmationVisible"
+       @onConfirmationApply="applyConfirmationPopup"
+       @onConfirmationCancel="closeConfirmationPopup"
+    />
   </div>
 </template>
 
@@ -55,6 +60,7 @@
   import nNoteTitle from '../components/note/n-note-title.vue';
   import nTodoList from '../components/todo/n-todo-list.vue';
   import nNote from '../components/note/n-note';
+  import nConfirmationPopup from '../components/features/n-confirmation-popup.vue';
 
   export default {
     name: 'n-single',
@@ -62,9 +68,11 @@
       nNote,
       nTodoList,
       nActivebar,
-      nNoteTitle
+      nNoteTitle,
+      nConfirmationPopup
     },
     data: () => ({
+      isConfirmationVisible: false,
       isModeEdit: false,
       note: null
     }),
@@ -104,8 +112,17 @@
       },
 
       removeNote() {
+        this.isConfirmationVisible = true;
+      },
+
+      applyConfirmationPopup() {
         this.REMOVE_NOTE(this.note.id);
+        this.isConfirmationVisible = false;
         this.$router.push('/');
+      },
+
+      closeConfirmationPopup() {
+        this.isConfirmationVisible = false;
       },
 
       saveChanges() {
@@ -174,11 +191,11 @@
     }
 
     &__save {
-      @include _slide-hover(#00a8cc);
+      @include _slide-hover($primary);
     }
 
     &__cancel {
-      @include _slide-hover(#a4c5c6, $dark: true);
+      @include _slide-hover($secondary, $dark: true);
     }
   }
 </style>
