@@ -1,22 +1,29 @@
 <template>
   <div class="n-home">
-    <div v-if="NOTES.length">
-      <n-note-list :notes="NOTES" />
+    <div class="n-home__loader" v-if="!NOTES_LOADING">
+      <h2>LOADING ...</h2>
     </div>
 
-    <div class="n-home__empty" v-else>
-      <button
-         class="n-home__first-note"
-         @click="$router.push('/create')"
-      >Create your first Note
-      </button>
+    <div v-else>
+        <n-note-list
+           v-if="NOTES.length"
+           :notes="NOTES"
+        />
+
+      <div class="n-home__empty" v-else>
+        <button
+           class="n-home__first-note"
+           @click="$router.push('/create')"
+        >Create your first Note
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   import nNoteList from '../components/note/n-note-list.vue';
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
 
   export default {
     name: 'n-home',
@@ -24,8 +31,14 @@
       nNoteList
     },
     computed: {
-      ...mapGetters(['NOTES'])
+      ...mapGetters(['NOTES', 'NOTES_LOADING'])
     },
+    methods: {
+      ...mapActions(['LOAD_NOTES'])
+    },
+    created() {
+      this.LOAD_NOTES();
+    }
   }
 </script>
 

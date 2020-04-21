@@ -20,9 +20,7 @@
 </template>
 
 <script>
-  import { uid } from '../../utils/utils';
   import Todo from '../../models/Todo.model';
-  
 
   export default {
     name: 'n-create-todo',
@@ -32,7 +30,6 @@
     methods: {
       submitHandle() {
         const todo = new Todo({
-          id: uid(),
           labelText: this.labelText
         });
         this.$emit('add-todo', todo);

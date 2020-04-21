@@ -44,7 +44,6 @@
 
 <script>
   import { eventEmitter } from '@/main';
-  import { uid } from '../utils/utils';
   import { mapActions } from 'vuex';
   import Note from '../models/Note.model';
 
@@ -74,9 +73,8 @@
 
       submitHandle() {
         const note = new Note({
-          id: uid(),
           title: this.title,
-          todos: this.todos
+          todos: this.todos,
         });
 
         this.ADD_NOTE(note);

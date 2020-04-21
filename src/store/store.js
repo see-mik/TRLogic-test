@@ -9,7 +9,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    notes: JSON.parse(localStorage.getItem('notesList') || '[]')
+    notes: [],
+    isNotesLoaded: false
   },
   getters,
   mutations,
