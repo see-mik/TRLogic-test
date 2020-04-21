@@ -2,8 +2,15 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router/router';
 import store from './store/store';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
+import { firebaseConfig } from '.env';
 
 Vue.config.productionTip = false;
+
+firebase.initializeApp((firebaseConfig || {}));
+
 export const eventEmitter = new Vue();
 
 new Vue({

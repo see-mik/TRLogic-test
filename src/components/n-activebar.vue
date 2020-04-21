@@ -14,7 +14,7 @@
       </button>
     </div>
 
-    <div class="n-activebar__row" v-if="isEdit">
+    <div class="n-activebar__row" v-if="false">
       <button
          class="n-activebar__do"
          @click="$emit('do')"
