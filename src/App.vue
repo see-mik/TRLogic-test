@@ -21,7 +21,7 @@
 </script>
 
 <style lang="scss">
-  @import "./assets/scss/style";
+  @import "assets/scss/common";
 
   .app {
     display: flex;

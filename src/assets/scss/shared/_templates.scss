@@ -1,0 +1,25 @@
+%btn {
+  padding: $padding $padding*2;
+  border-radius: $radius;
+  cursor: pointer;
+}
+
+%input {
+  padding: $padding;
+  box-shadow: 0 0 2px rgba(0, 0, 0, .4);
+  border-radius: $radius/2;
+}
+
+%wrap-center {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+%form-basic {
+  background-color: #fff;
+  padding: $padding*5 $padding*4;
+  border-radius: $radius;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+}

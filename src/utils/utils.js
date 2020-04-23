@@ -1,0 +1,1 @@
+export const uid = () => Math.floor((Date.now() + Math.random()) * Math.random());

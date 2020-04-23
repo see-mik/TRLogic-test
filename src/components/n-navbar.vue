@@ -11,6 +11,22 @@
 
         <nav class="n-navbar__list">
           <router-link
+             to="/login"
+             tag="li"
+             class="n-navbar__list-item"
+          >
+            <a href="#" class="n-navbar__link">Login</a>
+          </router-link>
+
+          <router-link
+             to="/registration"
+             tag="li"
+             class="n-navbar__list-item"
+          >
+            <a href="#" class="n-navbar__link">Registration</a>
+          </router-link>
+
+          <router-link
              tag="li"
              to="/create"
              class="n-navbar__list-item"

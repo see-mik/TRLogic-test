@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import nHome from './../views/n-home.vue';
-import nCreate from './../views/n-create.vue';
-import nSingle from './../views/n-single.vue';
+const nHome = () => import('./../views/n-home.vue');
+const nCreate = () => import('./../views/n-create.vue');
+const nSingle = () => import('./../views/n-single.vue');
+const nLogin = () => import('./../views/n-login.vue');
+const nRegistration = () => import('./../views/n-registration.vue');
 
 
 
@@ -13,17 +15,27 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => nHome
+    component: nHome
   },
   {
     path: '/create',
     name: 'create',
-    component: () => nCreate
+    component: nCreate
   },
   {
     path: '/note/:id',
     name: 'note-view',
-    component: () => nSingle
+    component: nSingle
+  },
+  {
+    path: '/login',
+    name: 'login-form',
+    component: nLogin
+  },
+  {
+    path: '/registration',
+    name: 'registration-form',
+    component: nRegistration
   }
 ];
 

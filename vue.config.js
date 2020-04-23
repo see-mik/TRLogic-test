@@ -9,10 +9,10 @@ module.exports = {
          * otherwise this is going to cause duplicates in <head>
          */
         prependData: `
-          @import "@/assets/scss/_mixins.scss";
-          @import "@/assets/scss/_variables.scss";
+          @import "@/assets/scss/shared.scss";
         `
       }
     }
   }
 };
+
