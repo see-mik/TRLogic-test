@@ -2,7 +2,7 @@ import Vue from 'vue';
 import firebase from './../../firebase';
 
 Vue.use(firebase);
-
+const notesRef = firebase.db.ref('/notes/');
 
 const state = {
   notes: [],
@@ -46,7 +46,7 @@ const mutations = {
 
 const actions = {
   LOAD_NOTES({commit}) {
-    firebase.db.ref('/notes').once('value', snapshot => {
+    notesRef.once('value', snapshot => {
       let notes = [];
 
       snapshot.forEach(child => {
@@ -65,7 +65,7 @@ const actions = {
   },
 
   ADD_NOTE({commit}, note) {
-    firebase.db.ref(`/notes/${note.id}`).set(note);
+    notesRef.push(note);
   }
 
   // UPDATE_NOTE({commit}, note) {

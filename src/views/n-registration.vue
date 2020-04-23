@@ -1,15 +1,18 @@
 <template>
   <div class="n-registration__wrap">
-    <form @submit.prevent="submitHandler" class="n-registration">
+    <form
+       @submit.prevent="submitHandler"
+       class="n-registration"
+    >
       <div class="n-registration__head">
         {{'Login to get more features'}}
       </div>
       <div class="n-registration__body">
         <n-form-input
            class="n-registration__input"
-           labelText="Login"
+           labelText="Email"
            inputId="user-name"
-           @onChange="loginHandler"
+           @onChange="emailHandler"
         />
 
         <n-form-input
@@ -29,7 +32,11 @@
         />
       </div>
 
-      <button type="submit" class="n-registration__submit">submit</button>
+      <button
+         type="submit"
+         class="n-registration__submit"
+      >{{'Submit'}}
+      </button>
     </form>
   </div>
 </template>
@@ -44,27 +51,43 @@
       nFormInput
     },
     data: () => ({
-      login: null,
+      email: null,
       password: null,
-      repeatPassword: null
+      repeatPassword: null,
+      isEmailValid: false,
+      isPasswordValid: false
     }),
     methods: {
       ...mapActions([]),
 
       submitHandler() {
         console.log({
-          l: this.login,
-          p: this.password
+          l: this.email,
+          p: this.password,
+          c: this.repeatPassword
         });
       },
-      loginHandler(login) {
-        this.login = login;
+      emailHandler(email) {
+        this.email = email;
       },
       passwordHandler(password) {
         this.password = password;
       },
       repeatPasswordHandler(repeatPassword) {
         this.repeatPassword = repeatPassword;
+      }
+    },
+    watch: {
+      email(newEmail, oldEmail) {
+        const emailMask = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+        if (newEmail.match(emailMask)) {
+          this.isEmailValid = true;
+          console.log(newEmail);
+        }else {
+          this.isEmailValid = false;
+          console.log('false');
+        }
       }
     }
   }

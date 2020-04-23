@@ -12,6 +12,12 @@
        :type="inputType"
        @change="onChangeHandler"
     />
+
+    <span
+       class="n-form-input__error"
+       v-if="valid"
+    >{{message}}
+    </span>
   </div>
 </template>
 
@@ -20,21 +26,22 @@
 
   export default {
     name: 'n-form-input',
-    data: () => ({
-      value: null,
-      type: null,
-      id: null
-    }),
     props: {
       labelText: String,
       inputId: String,
       inputType: String,
-      inputValue: String
+      inputValue: String,
+      isInvalid: Boolean,
+      validateMessage: String
     },
-    created() {
-      this.value = this.inputValue || null;
-      this.type = this.inputType || 'text';
-      this.id = this.inputId || (() => 'input' + uid())
+    data() {
+      return {
+        value: this.inputValue || null,
+        type: this.inputType || 'text',
+        id: this.inputId || (() => 'input' + uid()),
+        valid: this.isInvalid || true,
+        message: this.validateMessage|| ''
+      }
     },
     methods: {
       onChangeHandler () {
@@ -48,7 +55,6 @@
   .n-form-input {
     display: flex;
     flex-direction: column;
-
 
     input {
       @extend %input;

@@ -1,6 +1,9 @@
 <template>
   <div class="n-login__wrap">
-    <form @submit.prevent="submitHandler" class="n-login">
+    <form
+       @submit.prevent="submitHandler"
+       class="n-login"
+    >
       <div class="n-login__head">
         {{'Login to get more features'}}
       </div>
@@ -22,8 +25,17 @@
       </div>
 
       <div class="n-login__footer">
-        <button type="submit" class="n-login__submit">submit</button>
-        <router-link to="/registration" tag="a">Registration</router-link>
+        <button
+           type="submit"
+           class="n-login__submit"
+        >{{'Submit'}}
+        </button>
+        <router-link
+           to="/registration"
+           tag="a"
+           class="n-login__link"
+        >{{'Registration'}}
+        </router-link>
       </div>
     </form>
   </div>
@@ -79,6 +91,12 @@
       margin-bottom: $margin *3;
     }
 
+    &__footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    };
+
     &__submit {
       @extend %btn;
       @include _slide-hover($success);
@@ -87,6 +105,15 @@
       line-height: 1.1;
       color: #fff;
       text-transform: capitalize;
+    }
+
+    &__link {
+      font-size: 14px;
+      color: $primary;
+
+      &:hover {
+        color: $secondary;
+      }
     }
   }
 </style>
