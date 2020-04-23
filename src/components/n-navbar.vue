@@ -14,6 +14,7 @@
              to="/login"
              tag="li"
              class="n-navbar__list-item"
+             active-class="n-navbar__list-item_active"
           >
             <a href="#" class="n-navbar__link">Login</a>
           </router-link>
@@ -22,6 +23,7 @@
              to="/registration"
              tag="li"
              class="n-navbar__list-item"
+             active-class="n-navbar__list-item_active"
           >
             <a href="#" class="n-navbar__link">Registration</a>
           </router-link>
@@ -30,6 +32,7 @@
              tag="li"
              to="/create"
              class="n-navbar__list-item"
+             active-class="n-navbar__list-item_active"
           >
             <a href="#" class="n-navbar__link">Create</a>
           </router-link>
@@ -37,6 +40,8 @@
              to="/"
              tag="li"
              class="n-navbar__list-item"
+             active-class="n-navbar__list-item_active"
+             exact=""
           >
             <a href="#" class="n-navbar__link">Home</a>
           </router-link>
@@ -76,6 +81,14 @@
 
       &:first-child {
         margin-left: 0;
+      }
+
+      &_active {
+        background-color: #fff;
+
+        &:before, &:after {
+          display: none;
+        }
       }
     }
 
