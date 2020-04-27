@@ -2,11 +2,12 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router/router';
 import store from './store/store';
+import Vuelidate from 'vuelidate';
 
 Vue.config.productionTip = false;
+Vue.use(Vuelidate);
 
 export const eventEmitter = new Vue();
-
 new Vue({
   router,
   store,

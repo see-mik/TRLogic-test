@@ -12,6 +12,9 @@
            class="n-login__input"
            labelText="Login"
            inputId="user-name"
+           :inputValue="$v.login.$model"
+           :isInvalid="$v.login.$invalid"
+           :validateMessage="errorMessage.login"
            @onChange="loginHandler"
         />
 
@@ -20,14 +23,18 @@
            labelText="Password"
            inputId="user-password"
            inputType="password"
+           :inputValue="$v.password.$model"
+           :isInvalid="$v.password.$invalid"
+           :validateMessage="errorMessage.password"
            @onChange="passwordHandler"
         />
       </div>
 
       <div class="n-login__footer">
         <button
-           type="submit"
            class="n-login__submit"
+           type="submit"
+           :disabled="$v.$invalid"
         >{{'Submit'}}
         </button>
         <router-link
@@ -42,32 +49,23 @@
 </template>
 
 <script>
-  import nFormInput from './../components/features/n-form-input.vue';
+  import loginRegistrationFormMixin from './../mixins/loginRegistrationForm.mixin';
   import { mapActions } from 'vuex';
 
   export default {
     name: 'n-login',
-    components: {
-      nFormInput
-    },
-    data: () => ({
-      login: null,
-      password: null
-    }),
+    mixins: [loginRegistrationFormMixin],
     methods: {
       ...mapActions([]),
 
       submitHandler() {
+        if (this.$v.$invalid) {
+          return;
+        }
         console.log({
           l: this.login,
           p: this.password
         });
-      },
-      loginHandler(login) {
-        this.login = login;
-      },
-      passwordHandler(password) {
-        this.password = password;
       }
     }
   }
@@ -76,6 +74,9 @@
 <style lang="scss">
   .n-login {
     @extend %form-basic;
+
+    width: 100%;
+    max-width: 400px;
 
     &__wrap {
       @extend %wrap-center;
@@ -95,7 +96,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-    };
+    }
+  ;
 
     &__submit {
       @extend %btn;

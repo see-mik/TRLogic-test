@@ -25,8 +25,8 @@
     <div class="_col">
       <n-todo
          v-for="todo in todoLimit"
-         :key="todo.id"
          :todo="todo"
+         :key="todo.id"
       />
     </div>
 

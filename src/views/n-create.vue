@@ -21,9 +21,9 @@
         <n-todo
            v-for="todo in todos"
            :todo="todo"
-           :key="todo.id"
            :is-edit="false"
            :is-remove="true"
+           :key="todo.id"
         />
       </div>
 

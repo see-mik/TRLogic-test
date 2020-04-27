@@ -11,6 +11,7 @@
        :is-toggle="isEdit"
        :is-edit="isEdit"
        :todo="todo"
+       :key="todo.id"
     />
   </div>
 </template>

@@ -5,14 +5,17 @@
        class="n-registration"
     >
       <div class="n-registration__head">
-        {{'Login to get more features'}}
+        {{'Registration'}}
       </div>
       <div class="n-registration__body">
         <n-form-input
            class="n-registration__input"
-           labelText="Email"
+           labelText="Login"
            inputId="user-name"
-           @onChange="emailHandler"
+           :inputValue="$v.login.$model"
+           :isInvalid="$v.login.$invalid"
+           :validateMessage="errorMessage.login"
+           @onChange="loginHandler"
         />
 
         <n-form-input
@@ -20,6 +23,9 @@
            labelText="Password"
            inputId="user-password"
            inputType="password"
+           :inputValue="$v.password.$model"
+           :isInvalid="$v.password.$invalid"
+           :validateMessage="errorMessage.password"
            @onChange="passwordHandler"
         />
 
@@ -28,13 +34,17 @@
            labelText="Repeat password"
            inputId="repeat-password"
            inputType="password"
+           :inputValue="$v.repeatPassword.$model"
+           :isInvalid="$v.repeatPassword.$invalid"
+           :validateMessage="errorMessage.repeatPassword"
            @onChange="repeatPasswordHandler"
         />
       </div>
 
       <button
-         type="submit"
          class="n-registration__submit"
+         type="submit"
+         :disabled="$v.$invalid"
       >{{'Submit'}}
       </button>
     </form>
@@ -42,52 +52,25 @@
 </template>
 
 <script>
-  import nFormInput from './../components/features/n-form-input.vue';
+  import loginRegistrationFormMixin from './../mixins/loginRegistrationForm.mixin';
   import { mapActions } from 'vuex';
 
   export default {
     name: 'n-registration',
-    components: {
-      nFormInput
-    },
-    data: () => ({
-      email: null,
-      password: null,
-      repeatPassword: null,
-      isEmailValid: false,
-      isPasswordValid: false
-    }),
+    mixins: [loginRegistrationFormMixin],
     methods: {
       ...mapActions([]),
 
       submitHandler() {
+        if (this.$v.$invalid) {
+          return;
+        }
+
         console.log({
-          l: this.email,
+          l: this.login,
           p: this.password,
           c: this.repeatPassword
         });
-      },
-      emailHandler(email) {
-        this.email = email;
-      },
-      passwordHandler(password) {
-        this.password = password;
-      },
-      repeatPasswordHandler(repeatPassword) {
-        this.repeatPassword = repeatPassword;
-      }
-    },
-    watch: {
-      email(newEmail, oldEmail) {
-        const emailMask = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-        if (newEmail.match(emailMask)) {
-          this.isEmailValid = true;
-          console.log(newEmail);
-        }else {
-          this.isEmailValid = false;
-          console.log('false');
-        }
       }
     }
   }
@@ -96,6 +79,9 @@
 <style lang="scss">
   .n-registration {
     @extend %form-basic;
+
+    width: 100%;
+    max-width: 400px;
 
     &__wrap {
       @extend %wrap-center;
